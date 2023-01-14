@@ -31,4 +31,5 @@ $(".add-task-btn").click(function() {
     var parentId = $(this).parent().attr('id');
     console.log(parentId);
     addTask(parentId);
+    $(".new-task-input").val('');
 });
