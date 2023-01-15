@@ -27,9 +27,44 @@ var addTask = function(taskDay) {
     $(`#${taskDay}-tasks`).prepend(newTask);
 };
 
+// enable add task button once text is entered in the input field
+// $(".new-task-input").click(function() {
+//     var parentId = $(this).parent().attr('id');
+//     console.log(parentId);
+//     
+
+//     if ($(this).val().trim() != "") {
+//         //Enable the TextBox when TextBox has value.
+//         taskButton.removeAttr("disabled");
+//     } else {
+//         //Disable the TextBox when TextBox is empty.
+//         taskButton.attr("disabled", "disabled");
+//     }
+// });
+$(".new-task-input").keyup(function () {
+    var parentId = $(this).parent().attr('id');
+    // console.log(parentId);
+    //Reference the Button.
+    var taskButton = $(`#add-task-${parentId}-btn`);
+
+    //Verify the TextBox value.
+    if ($(this).val().trim() != "") {
+        //Enable the TextBox when TextBox has value.
+        taskButton.removeAttr("disabled");
+    } else {
+        //Disable the TextBox when TextBox is empty.
+        taskButton.attr("disabled", "disabled");
+    }
+});
+
+// what happens when add task button is clicked
 $(".add-task-btn").click(function() {
     var parentId = $(this).parent().attr('id');
-    console.log(parentId);
+    var taskButton = $(`#add-task-${parentId}-btn`);
+
     addTask(parentId);
-    $(".new-task-input").val('');
+    // clear the input field(s)
+    $(`#add-task-${parentId}-text`).val('');
+    // disable add task btn once clicked
+    taskButton.attr("disabled", "disabled");
 });
