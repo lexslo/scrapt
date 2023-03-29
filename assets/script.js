@@ -29,17 +29,17 @@ var taskIdCounter = 0;
 var tasks = [];
 
 // add task button
-var addTask = function(taskText, taskDay) {
+var addTask = function(taskText, taskDay, taskId) {
     // new <li> for individual task
     var taskLi = $('<li>');
     // create the checkbox
-    var task = $('<input type="checkbox" name="to-do-item" id="to-do-item">').addClass('task-line');
+    var task = $(`<input type="checkbox" name="to-do-item" id="to-do-item" data-task-id=${taskId}>`).addClass('task-line');
     // // grab the text from the text input next to add task btn
     // var taskText = $(`#add-task-${taskDay}-text`).val();
     // create label with text from input
     var taskLabel = $('<label for="to-do-item">').text(taskText);
     // create a delete button for the task
-    var delBtn = $('<button type="button" class="btn btn-danger delete-btn">').text('X');
+    var delBtn = $(`<button type="button" class="btn btn-danger delete-btn" data-task-id=${taskId}>`).text('X');
     // append the input and label to the div
     var newTask = taskLi.append(task, taskLabel, delBtn);
     // prepend new task to ul element, newest on top
@@ -73,7 +73,7 @@ var loadTasks = function() {
             console.log(task);
             // add each task to appropriate place
             // THIS IS WHERE YOU WOULD CHECK TASK.DATE AND MOVE ACCORDINGLY!
-            addTask(task.text, task.day);
+            addTask(task.text, task.day, task.id);
         })
     }
     else {
@@ -88,10 +88,50 @@ var saveTasks = function() {
 
 // remove a task
 $(".delete-btn").on("click", function() {
-    $(this).closest('li').remove();
+    // $(this).closest('li').remove();
     console.log('delete button clicked');
-    saveTasks();
+    // saveTasks();
+    var taskId = $(this).attr('data-task-id');
+    console.log(taskId);
 });
+
+var delButtonHandler = function (event) {
+    // get target element from event
+    var targetEl = event.target;
+
+    console.log("delete", targetEl);
+    var taskId = targetEl.getAttribute("data-task-id");
+    deleteTask(taskId);
+  };
+
+var deleteTask = function (taskId) {
+    // $(this).closest('li').remove();
+    console.log('delete button clicked');
+    // saveTasks();
+    var taskId = $(this).attr('data-task-id');
+    console.log(taskId);
+    // console.log(taskId);
+    // // find task list element with taskId value and remove it
+    // var taskSelected = document.querySelector(
+    //   ".task-item[data-task-id='" + taskId + "']"
+    // );
+    // taskSelected.remove();
+  
+    // // create new array to hold updated list of tasks
+    // var updatedTaskArr = [];
+  
+    // // loop through current tasks
+    // for (var i = 0; i < tasks.length; i++) {
+    //   // if tasks[i].id doesn't match the value of taskId, let's keep that task and push it into the new array
+    //   if (tasks[i].id !== parseInt(taskId)) {
+    //     updatedTaskArr.push(tasks[i]);
+    //   }
+    // }
+  
+    // // reassign tasks array to be the same as updatedTaskArr
+    // tasks = updatedTaskArr;
+    // saveTasks();
+  };
 
 // keyup to track input text in input fields
 $(".new-task-input").keyup(function () {
