@@ -39,8 +39,8 @@ var addTask = function(taskText, taskDay) {
     var delBtn = $('<button type="button" class="btn btn-danger delete-btn">').text('X');
     // append the input and label to the div
     var newTask = taskLi.append(task, taskLabel, delBtn);
-    // prepend entire new task to the section so newest ones appear at the top
-    $(`#${taskDay}-tasks`).prepend(newTask);
+    // prepend new task to ul element, newest on top
+    $(`#${taskDay}-tasks-ul`).prepend(newTask);
 
     // save today's date for future use in the tasks array
     var today = new Date();

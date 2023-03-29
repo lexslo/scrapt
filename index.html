@@ -106,11 +106,13 @@
                     <h2>Today</h2>
                     <div id="today-tasks">
                         <!-- TEST VISUAL STUFF HERE -->
-                        <li>
-                            <input type="checkbox" name="to-do-item" id="to-do-item" class="'task-line">
-                            <label for="to-do-item">How this looks as an li instead of div</label>
-                            <button type="button" class="btn btn-danger delete-btn">X</button>
-                        </li>
+                        <ul id="today-tasks-ul">
+                            <li>
+                                <input type="checkbox" name="to-do-item" id="to-do-item" class="'task-line">
+                                <label for="to-do-item">How this looks as an li instead of div</label>
+                                <button type="button" class="btn btn-danger delete-btn">X</button>
+                            </li>
+                        </ul>
                     </div>
                     <input type="text" class="new-task-input" id="add-task-today-text"></input>
                     <button type="button" class="btn btn-success add-task-btn" id="add-task-today-btn" disabled="disabled">Add Task</button>
@@ -120,7 +122,9 @@
     
                 <div id="tomorrow">
                     <h2>Tomorrow</h2>
-                    <div id="tomorrow-tasks"></div>
+                    <div id="tomorrow-tasks">
+                        <ul id="tomorrow-tasks-ul"></ul>
+                    </div>
                     <input type="text" class="new-task-input" id="add-task-tomorrow-text"></input>
                     <button type="button" class="btn btn-success add-task-btn" id="add-task-tomorrow-btn" disabled="disabled">Add Task</button>
                 </div>

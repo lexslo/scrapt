@@ -159,6 +159,10 @@ a.article:hover {
 }
 
 /* Task Container Styles */
+ul {
+    list-style-type: none;
+}
+
 li {
     padding: 0.5rem;
     margin: 0.5rem;
