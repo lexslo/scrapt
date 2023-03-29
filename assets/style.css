@@ -158,6 +158,16 @@ a.article:hover {
     width: 100%;
 }
 
+/* Task Container Styles */
+li {
+    padding: 0.5rem;
+    margin: 0.5rem;
+}
+
+label {
+    padding: 0.25rem;
+}
+
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */

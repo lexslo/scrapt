@@ -11,28 +11,46 @@ $(document).ready(function () {
     });
 });
 
+var formatDate = function(dateToFormat) {
+    const yyyy = dateToFormat.getFullYear();
+    let mm = dateToFormat.getMonth() + 1; // Months start at 0!
+    let dd = dateToFormat.getDate();
+
+    if (dd < 10) dd = '0' + dd;
+    if (mm < 10) mm = '0' + mm;
+
+    return mm + '/' + dd + '/' + yyyy;
+}
+
 // declare empty object for tasks in local storage
 var tasks = [];
 
 // add task button
 var addTask = function(taskText, taskDay) {
-    // new div for individual task
-    var taskDiv = $('<div>');
+    // new <li> for individual task
+    var taskLi = $('<li>');
     // create the checkbox
     var task = $('<input type="checkbox" name="to-do-item" id="to-do-item">').addClass('task-line');
     // // grab the text from the text input next to add task btn
     // var taskText = $(`#add-task-${taskDay}-text`).val();
     // create label with text from input
     var taskLabel = $('<label for="to-do-item">').text(taskText);
+    // create a delete button for the task
+    var delBtn = $('<button type="button" class="btn btn-danger delete-btn">').text('X');
     // append the input and label to the div
-    var newTask = taskDiv.append(task, taskLabel);
+    var newTask = taskLi.append(task, taskLabel, delBtn);
     // prepend entire new task to the section so newest ones appear at the top
     $(`#${taskDay}-tasks`).prepend(newTask);
+
+    // save today's date for future use in the tasks array
+    var today = new Date();
+    today = formatDate(today);
 
     // save in tasks array
     tasks.push({
         text: taskText,
-        day: taskDay
+        day: taskDay,
+        date: today
     });
 };
 
@@ -47,6 +65,7 @@ var loadTasks = function() {
         tasks.forEach(function(task) {
             console.log(task);
             // add each task to appropriate place
+            // THIS IS WHERE YOU WOULD CHECK TASK.DATE AND MOVE ACCORDINGLY!
             addTask(task.text, task.day);
         })
     }
@@ -59,6 +78,13 @@ var loadTasks = function() {
 var saveTasks = function() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
 };
+
+// remove a task
+$(".delete-btn").on("click", function() {
+    $(this).closest('li').remove();
+    console.log('delete button clicked');
+    saveTasks();
+});
 
 // keyup to track input text in input fields
 $(".new-task-input").keyup(function () {
