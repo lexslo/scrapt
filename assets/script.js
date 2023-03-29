@@ -31,7 +31,7 @@ var tasks = [];
 // add task button
 var addTask = function(taskText, taskDay, taskId) {
     // new <li> for individual task
-    var taskLi = $('<li>');
+    var taskLi = $(`<li class="task-li-item" data-task-id=${taskId}>`);
     // create the checkbox
     var task = $(`<input type="checkbox" name="to-do-item" id="to-do-item" data-task-id=${taskId}>`).addClass('task-line');
     // // grab the text from the text input next to add task btn
@@ -86,52 +86,48 @@ var saveTasks = function() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
+/*
+
+EXPLANATION OF USING $(DOCUMENT.BODY) FOR DYNAMIC CONTENT
+
+You have to add the selector parameter, otherwise the event is directly bound instead of delegated, 
+which only works if the element already exists (so it doesn't work for dynamically loaded content).
+
+See http://api.jquery.com/on/#direct-and-delegated-events
+
+*/
+
 // remove a task
-$(".delete-btn").on("click", function() {
+$(document.body).on('click', '.delete-btn', function() {
     // $(this).closest('li').remove();
     console.log('delete button clicked');
     // saveTasks();
     var taskId = $(this).attr('data-task-id');
     console.log(taskId);
+
+    // find task list element with taskId value and remove it
+    // var selectedTask = $(`".task-line[data-task-id='${taskId}']"`);
+    var selectedTask = $(".task-li-item[data-task-id='" + taskId + "']");
+    console.log(selectedTask);
+    selectedTask.remove();
+
+    // create new array to hold updated list of tasks
+    var updatedTaskArr = [];
+
+    // loop through current tasks
+    for (var i = 0; i < tasks.length; i++) {
+      // if tasks[i].id doesn't match the value of taskId, let's keep that task and push it into the new array
+      if (tasks[i].id !== parseInt(taskId)) {
+        updatedTaskArr.push(tasks[i]);
+      }
+    }
+    console.log(updatedTaskArr);
+  
+    // reassign tasks array to be the same as updatedTaskArr
+    tasks = updatedTaskArr;
+    saveTasks();
+
 });
-
-var delButtonHandler = function (event) {
-    // get target element from event
-    var targetEl = event.target;
-
-    console.log("delete", targetEl);
-    var taskId = targetEl.getAttribute("data-task-id");
-    deleteTask(taskId);
-  };
-
-var deleteTask = function (taskId) {
-    // $(this).closest('li').remove();
-    console.log('delete button clicked');
-    // saveTasks();
-    var taskId = $(this).attr('data-task-id');
-    console.log(taskId);
-    // console.log(taskId);
-    // // find task list element with taskId value and remove it
-    // var taskSelected = document.querySelector(
-    //   ".task-item[data-task-id='" + taskId + "']"
-    // );
-    // taskSelected.remove();
-  
-    // // create new array to hold updated list of tasks
-    // var updatedTaskArr = [];
-  
-    // // loop through current tasks
-    // for (var i = 0; i < tasks.length; i++) {
-    //   // if tasks[i].id doesn't match the value of taskId, let's keep that task and push it into the new array
-    //   if (tasks[i].id !== parseInt(taskId)) {
-    //     updatedTaskArr.push(tasks[i]);
-    //   }
-    // }
-  
-    // // reassign tasks array to be the same as updatedTaskArr
-    // tasks = updatedTaskArr;
-    // saveTasks();
-  };
 
 // keyup to track input text in input fields
 $(".new-task-input").keyup(function () {
