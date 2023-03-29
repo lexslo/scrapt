@@ -22,6 +22,9 @@ var formatDate = function(dateToFormat) {
     return mm + '/' + dd + '/' + yyyy;
 }
 
+// start creating IDs by incrementing from 0
+var taskIdCounter = 0;
+
 // declare empty object for tasks in local storage
 var tasks = [];
 
@@ -50,8 +53,12 @@ var addTask = function(taskText, taskDay) {
     tasks.push({
         text: taskText,
         day: taskDay,
-        date: today
+        date: today,
+        id: taskIdCounter
     });
+
+    // increment taskIdCounter by 1
+    taskIdCounter++;
 };
 
 var loadTasks = function() {
